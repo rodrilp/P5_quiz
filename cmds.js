@@ -164,14 +164,14 @@ exports.addCmd = (socket, rl) => {
  * @param rl Objeto readline usado para implementar el CLI.
  * @param id Clave del quiz a borrar en el modelo.
  */
-exports.deleteCmd = (rl, id) => {
+exports.deleteCmd = (socket, rl, id) => {
 
     validateId(id)
 
         .then(id => models.quiz.destroy({where: {id}}))
 
         .catch(error => {
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
 
         .then(() => {
