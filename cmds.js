@@ -129,7 +129,7 @@ const makeQuestion = (rl, text) => {
  *
  * @param rl Objeto readline usado para implementar el CLI.
  */
-exports.addCmd = rl => {
+exports.addCmd = (socket, rl) => {
 
     makeQuestion(rl, 'Introduzca una pregunta:')
         .then(q => {
@@ -143,14 +143,14 @@ exports.addCmd = rl => {
             return models.quiz.create(quiz);
         })
         .then(quiz =>{
-            log(` ${colorize('Se ha añadido', 'magenta')}: ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer}`);
+            log(socket, ` ${colorize('Se ha añadido', 'magenta')}: ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer}`);
         })
         .catch(Sequelize.ValidationError, error => {
-            errorlog('El quiz es erroneo: ');
-            error.errors.forEach(({messge}) => errorlog(message));
+            errorlog(socket, 'El quiz es erroneo: ');
+            error.errors.forEach(({messge}) => errorlog(socket, message));
         })
         .catch(error => {
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
         .then(() =>{
             rl.prompt();
