@@ -12,7 +12,7 @@ net.createServer(socket => {
     console.log("Se ha conectado un cliente" + socket.remoteAddress);
 
     // Mensaje inicial
-    biglog('CORE Quiz', 'green');
+    biglog(socket,'CORE Quiz', 'green');
 
 
     const rl = readline.createInterface({
@@ -45,56 +45,56 @@ net.createServer(socket => {
 
                 case 'help':
                 case 'h':
-                    cmds.helpCmd(rl);
+                    cmds.helpCmd(socket, rl);
                     break;
 
                 case 'quit':
                 case 'q':
-                    cmds.quitCmd(rl);
+                    cmds.quitCmd(socket, rl);
                     break;
 
                 case 'add':
-                    cmds.addCmd(rl);
+                    cmds.addCmd(socket, rl);
                     break;
 
                 case 'list':
-                    cmds.listCmd(rl);
+                    cmds.listCmd(socket, rl);
                     break;
 
                 case 'show':
-                    cmds.showCmd(rl, args[1]);
+                    cmds.showCmd(socket, rl, args[1]);
                     break;
 
                 case 'test':
-                    cmds.testCmd(rl, args[1]);
+                    cmds.testCmd(socket, rl, args[1]);
                     break;
 
                 case 'play':
                 case 'p':
-                    cmds.playCmd(rl);
+                    cmds.playCmd(socket, rl);
                     break;
 
                 case 'delete':
-                    cmds.deleteCmd(rl, args[1]);
+                    cmds.deleteCmd(socket, rl, args[1]);
                     break;
 
                 case 'edit':
-                    cmds.editCmd(rl, args[1]);
+                    cmds.editCmd(socket, rl, args[1]);
                     break;
 
                 case 'credits':
-                    cmds.creditsCmd(rl);
+                    cmds.creditsCmd(socket, rl);
                     break;
 
                 default:
-                    log(`Comando desconocido: '${colorize(cmd, 'red')}'`);
-                    log(`Use ${colorize('help', 'green')} para ver todos los comandos disponibles.`);
+                    log(socket,`Comando desconocido: '${colorize(cmd, 'red')}'`);
+                    log(socket,`Use ${colorize('help', 'green')} para ver todos los comandos disponibles.`);
                     rl.prompt();
                     break;
             }
         })
         .on('close', () => {
-            log('Adios!');
+            log(socket,'Adios!');
             process.exit(0);
         });
 })
