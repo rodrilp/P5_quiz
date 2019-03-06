@@ -76,17 +76,17 @@ const validateId = id => {
  * @param rl Objeto readline usado para implementar el CLI.
  * @param id Clave del quiz a mostrar.
  */
-exports.showCmd = (rl, id) => {
+exports.showCmd = (socket, rl, id) => {
     validateId(id)
         .then(id => models.quiz.findById(id))
         .then(quiz => {
             if(!quiz){
                 throw new Error(`No existe un quiz asociado al id=${id}.`);
             }
-            log(`[${colorize(quiz.id, 'magenta')}]:  ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer} `);
+            log(socket, `[${colorize(quiz.id, 'magenta')}]:  ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer} `);
         })
         .catch(error =>{
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
         .then(() => {
             rl.prompt();
