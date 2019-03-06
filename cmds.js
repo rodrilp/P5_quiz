@@ -10,18 +10,18 @@ const Sequelize = require('sequelize');
  *
  * @param rl Objeto readline usado para implementar el CLI.
  */
-exports.helpCmd = rl => {
-    log("Commandos:");
-    log("  h|help - Muestra esta ayuda.");
-    log("  list - Listar los quizzes existentes.");
-    log("  show <id> - Muestra la pregunta y la respuesta el quiz indicado.");
-    log("  add - Añadir un nuevo quiz interactivamente.");
-    log("  delete <id> - Borrar el quiz indicado.");
-    log("  edit <id> - Editar el quiz indicado.");
-    log("  test <id> - Probar el quiz indicado.");
-    log("  p|play - Jugar a preguntar aleatoriamente todos los quizzes.");
-    log("  credits - Créditos.");
-    log("  q|quit - Salir del programa.");
+exports.helpCmd = (socket, rl )=> {
+    log(socket, "Commandos:");
+    log(socket, "  h|help - Muestra esta ayuda.");
+    log(socket, "  list - Listar los quizzes existentes.");
+    log(socket, "  show <id> - Muestra la pregunta y la respuesta el quiz indicado.");
+    log(socket, "  add - Añadir un nuevo quiz interactivamente.");
+    log(socket, "  delete <id> - Borrar el quiz indicado.");
+    log(socket, "  edit <id> - Editar el quiz indicado.");
+    log(socket, "  test <id> - Probar el quiz indicado.");
+    log(socket, "  p|play - Jugar a preguntar aleatoriamente todos los quizzes.");
+    log(socket, "  credits - Créditos.");
+    log(socket, "  q|quit - Salir del programa.");
     rl.prompt();
 };
 
