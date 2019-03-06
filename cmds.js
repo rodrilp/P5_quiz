@@ -191,7 +191,7 @@ exports.deleteCmd = (socket, rl, id) => {
  * @param rl Objeto readline usado para implementar el CLI.
  * @param id Clave del quiz a editar en el modelo.
  */
-exports.editCmd = (rl, id) => {
+exports.editCmd = (socket, rl, id) => {
 
     validateId(id)
         .then(id => models.quiz.findById(id))
@@ -216,14 +216,14 @@ exports.editCmd = (rl, id) => {
             return quiz.save();
         })
         .then(quiz => {
-            log(` Se ha cambiado el quiz ${colorize(quiz.id, 'magenta')} por: ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer}`);
+            log(socket, ` Se ha cambiado el quiz ${colorize(quiz.id, 'magenta')} por: ${quiz.question} ${colorize('=>', 'magenta')} ${quiz.answer}`);
         })
         .catch(Sequelize.ValidationError, error => {
-            errorlog('El quiz es errorneo: ');
-            error.errors.forEach(({messge}) => errorlog(message));
+            errorlog(socket, 'El quiz es errorneo: ');
+            error.errors.forEach(({messge}) => errorlog(socket, message));
         })
         .catch(error => {
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
         .then(() => {
             rl.prompt();
