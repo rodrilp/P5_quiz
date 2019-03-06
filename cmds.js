@@ -31,13 +31,13 @@ exports.helpCmd = (socket, rl )=> {
  *
  * @param rl Objeto readline usado para implementar el CLI.
  */
-exports.listCmd = rl => {
+exports.listCmd = (socket, rl) => {
     models.quiz.findAll()
         .each(quiz => {
-                log(` [${colorize(quiz.id, 'magenta')}]:  ${quiz.question}`);
+                log(socket, ` [${colorize(quiz.id, 'magenta')}]:  ${quiz.question}`);
         })
         .catch(error => {
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
         .then(() =>{
             rl.prompt();
