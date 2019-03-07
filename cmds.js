@@ -238,7 +238,7 @@ exports.editCmd = (socket, rl, id) => {
  * @param rl Objeto readline usado para implementar el CLI.
  * @param id Clave del quiz a probar.
  */
-exports.testCmd = (rl, id) => {
+exports.testCmd = (socket, rl, id) => {
     validateId(id)
         .then(id => models.quiz.findById(id))
         .then(quiz => {
@@ -248,17 +248,17 @@ exports.testCmd = (rl, id) => {
             return makeQuestion(rl, `${quiz.question}?  `)
                 .then(respuesta => {
                     if (respuesta.trim().toLowerCase() === quiz.answer.toLowerCase()){
-                        log("Su respuesta es:");
-                        biglog('CORRECTA', 'green');
+                        log(socket, "Su respuesta es:");
+                        biglog(socket, 'CORRECTA', 'green');
                     }else{
-                        log("Su respuesta es:");
-                        biglog('INCORRECTA', 'red');
+                        log(socket, "Su respuesta es:");
+                        biglog(socket, 'INCORRECTA', 'red');
                     }
                 })
 
         })
         .catch(error => {
-            errorlog(error.message);
+            errorlog(socket, error.message);
         })
         .then(() => {
             rl.prompt();
@@ -272,7 +272,7 @@ exports.testCmd = (rl, id) => {
  *
  * @param rl Objeto readline usado para implementar el CLI.
  */
-exports.playCmd = rl => {
+exports.playCmd = (socket, rl)=> {
     let score = 0;
     let toBeResolved = [];
 
@@ -286,9 +286,9 @@ exports.playCmd = rl => {
 
                 if (toBeResolved.length === 0) {
 
-                    log('No hay nada más que preguntar.');
-                    log(`Fin del examen. Aciertos:`);
-                    biglog(` ${score}`, 'magenta');
+                    log(socket, 'No hay nada más que preguntar.');
+                    log(socket, `Fin del examen. Aciertos:`);
+                    biglog(socket, ` ${score}`, 'magenta');
                     rl.prompt();
                 } else {
 
@@ -303,20 +303,20 @@ exports.playCmd = rl => {
 
                                     if (respuesta.toLowerCase().trim() === quiz.answer.toLowerCase().trim()){
                                         score++;
-                                        log(`CORRECTO - Lleva ${score} aciertos`);
+                                        log(socket, `CORRECTO - Lleva ${score} aciertos`);
 
                                         toBeResolved.splice(idx,1);
                                         playOne();
 
                                     }else {
-                                        log("INCORRECTO");
-                                        log("Fin del examen. Aciertos:");
-                                        biglog(`${score}`, 'magenta');
+                                        log(socket, "INCORRECTO");
+                                        log(socket, "Fin del examen. Aciertos:");
+                                        biglog(socket, `${score}`, 'magenta');
                                         rl.prompt();
                                     }
                                 })
                                 .catch(error => {
-                                    errorlog(error.message);
+                                    errorlog(socket, error.message);
                                 })
                         })
                 }
