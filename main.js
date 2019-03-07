@@ -95,7 +95,6 @@ net.createServer(socket => {
         })
         .on('close', () => {
             log(socket,'Adios!');
-            process.exit(0);
         });
 })
     .listen(3030);
